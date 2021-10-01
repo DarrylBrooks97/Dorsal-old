@@ -1,7 +1,8 @@
+import RotatingText from '@/components/rotating-text';
 import {
 	Box,
-	Heading,
 	Flex,
+	Heading,
 	VStack,
 	Spacer,
 	Text,
@@ -19,7 +20,7 @@ export default function Home() {
 					<Heading mt="50%" fontSize="6xl">
 						Dorsal
 					</Heading>
-					<Text fontSize="4xl">Aquarium Design simplified</Text>
+					<RotatingText />
 					<HStack>
 						<Input
 							placeholder="Email address"
@@ -35,7 +36,6 @@ export default function Home() {
 					flexDirection="column"
 					justifyContent="center"
 					position="relative"
-					bg="darkmagenta"
 				>
 					<Image
 						src="https://preview.free3d.com/img/2018/04/2397296571055080768/ztn7hhzq-900.jpg"
