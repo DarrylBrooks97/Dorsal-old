@@ -49,7 +49,7 @@ export default function Home() {
 						w={256}
 						h={256}
 						transform="scaleX(-1)"
-						top="15%"
+						top="20%"
 						left="10%"
 					/>
 					<Image

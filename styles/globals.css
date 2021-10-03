@@ -16,29 +16,33 @@ a {
 	box-sizing: border-box;
 }
 
-/* .rotating-text {
-	transform: translateX(-80px);
-} */
-.rotating-text p {
-	display: inline-flex;
-	margin: 0;
+p {
+	display: inline-block;
 	vertical-align: top;
+	margin: 0;
 }
-.rotating-text p .word {
-	/* position: absolute; */
-	display: flex;
+
+.word {
 	opacity: 0;
 }
-.rotating-text p .word .letter {
-	transform-origin: center center 25px;
+
+.letter {
+	display: inline-block;
+	position: relative;
+	transform: translateZ(25px);
+	transform-origin: 50% 50% 25px;
 }
-.rotating-text p .word .letter.out {
+
+.letter.out {
 	transform: rotateX(90deg);
-	transition: 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
+	transition: transform 0.32s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
-.rotating-text p .word .letter.in {
-	transition: 0.38s ease;
-}
-.rotating-text p .word .letter.behind {
+
+.letter.behind {
 	transform: rotateX(-90deg);
+}
+
+.letter.in {
+	transform: rotateX(0deg);
+	transition: transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
