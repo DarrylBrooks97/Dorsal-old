@@ -16,12 +16,12 @@ export default function Home() {
 	return (
 		<Box bg="brand.offwhite">
 			<Flex p={30} h="100vh" w="100vw">
-				<VStack alignItems="left" spacing={15}>
+				<VStack alignItems="left">
 					<Heading mt="50%" fontSize="6xl">
 						Dorsal
 					</Heading>
 					<RotatingText />
-					<HStack>
+					<HStack pt={10}>
 						<Input
 							placeholder="Email address"
 							borderColor="#000000"
@@ -31,11 +31,12 @@ export default function Home() {
 						</Button>
 					</HStack>
 				</VStack>
-				<Spacer />
+				{/* <Spacer /> */}
 				<Flex
 					flexDirection="column"
 					justifyContent="center"
 					position="relative"
+					ml={10}
 				>
 					<Image
 						src="https://preview.free3d.com/img/2018/04/2397296571055080768/ztn7hhzq-900.jpg"
