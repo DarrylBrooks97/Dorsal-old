@@ -11,12 +11,36 @@ import {
 	HStack,
 	Input,
 } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+	const [innerHeight, setInnerHeight] = useState(0);
+	const [innerWidth, setInnerWidth] = useState(0);
+
+	useEffect(() => {
+		if (window) {
+			setInnerHeight(window.innerHeight);
+			setInnerWidth(window.innerWidth);
+		}
+	}, []);
 	return (
 		<Box bg="brand.offwhite">
-			<Flex p={30} h="100vh" w="100vw">
-				<VStack alignItems="left">
+			<Flex
+				p={{ sm: 4, md: '10', lg: '30' }}
+				h="100vh"
+				w="100vw"
+				display={{ sm: 'block', md: 'flex', lg: 'flex' }}
+			>
+				<VStack
+					align="left"
+					textAlign={{
+						base: 'center',
+						sm: 'center',
+						md: 'start',
+						lg: 'start',
+						xl: 'start',
+					}}
+				>
 					<Heading mt="50%" fontSize="6xl">
 						Dorsal
 					</Heading>
@@ -31,7 +55,6 @@ export default function Home() {
 						</Button>
 					</HStack>
 				</VStack>
-				{/* <Spacer /> */}
 				<Flex
 					flexDirection="column"
 					justifyContent="center"
@@ -42,6 +65,7 @@ export default function Home() {
 						src="https://preview.free3d.com/img/2018/04/2397296571055080768/ztn7hhzq-900.jpg"
 						alt="coral reef"
 						w="100%"
+						display={{ base: 'none', md: 'block', lg: 'block' }}
 					/>
 					<Image
 						position="absolute"
@@ -52,6 +76,7 @@ export default function Home() {
 						transform="scaleX(-1)"
 						top="20%"
 						left="10%"
+						display={{ base: 'none', md: 'block', lg: 'block' }}
 					/>
 					<Image
 						position="absolute"
@@ -60,6 +85,7 @@ export default function Home() {
 						w={228}
 						h={228}
 						right="10%"
+						display={{ base: 'none', md: 'block', lg: 'block' }}
 					/>
 					<Image
 						position="absolute"
@@ -69,6 +95,7 @@ export default function Home() {
 						h={128}
 						right="30%"
 						top="10%"
+						display={{ base: 'none', md: 'block', lg: 'block' }}
 					/>
 				</Flex>
 			</Flex>

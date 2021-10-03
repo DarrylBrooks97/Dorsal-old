@@ -36,7 +36,6 @@ const temp = () => {
 			currentWord == words.length - 1
 				? wordArray[0]
 				: wordArray[currentWord + 1];
-		// console.log(words[currentWord]);
 		words[currentWord].style.position =
 			currentWord == wordArray.length - 1 ? 'relative' : 'absolute';
 		for (var i = 0; i < cw.length; i++) {
@@ -72,9 +71,15 @@ export default function RotatingText() {
 	}, []);
 
 	return (
-		<Box>
+		<Box
+			display={{ base: 'block', md: 'inline-block', lg: 'inline-block' }}
+		>
 			<Text fontSize="3xl">Aquarium </Text>
-			<Box as="p" ml={2} mr={2}>
+			<Box
+				as="p"
+				ml={{ base: 2, md: 0, lg: 0, xl: 2 }}
+				mr={{ base: 2, md: 0, lg: 2, xl: 2 }}
+			>
 				<Box
 					as="span"
 					className="word"
