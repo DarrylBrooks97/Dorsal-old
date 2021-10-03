@@ -4,25 +4,14 @@ import {
 	Flex,
 	Heading,
 	VStack,
-	Spacer,
-	Text,
 	Image,
 	Button,
 	HStack,
 	Input,
 } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export default function Home() {
-	const [innerHeight, setInnerHeight] = useState(0);
-	const [innerWidth, setInnerWidth] = useState(0);
-
-	useEffect(() => {
-		if (window) {
-			setInnerHeight(window.innerHeight);
-			setInnerWidth(window.innerWidth);
-		}
-	}, []);
 	return (
 		<Box bg="brand.offwhite">
 			<Flex

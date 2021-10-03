@@ -65,6 +65,7 @@ const temp = () => {
 	changeWord();
 	setInterval(changeWord, 2500);
 };
+
 export default function RotatingText() {
 	useEffect(() => {
 		if (document) temp();
