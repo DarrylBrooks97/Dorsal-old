@@ -1,4 +1,5 @@
 import RotatingText from '@/components/rotating-text';
+import Header from '@/components/Header';
 import {
 	Box,
 	Flex,
@@ -14,11 +15,12 @@ import { useEffect } from 'react';
 export default function Home() {
 	return (
 		<Box bg="brand.offwhite">
+			<Header />
 			<Flex
 				p={{ sm: 4, md: '10', lg: '30' }}
-				h="100vh"
-				w="100vw"
 				display={{ sm: 'block', md: 'flex', lg: 'flex' }}
+				h="100%"
+				w="100%"
 			>
 				<VStack
 					align="left"
@@ -54,7 +56,9 @@ export default function Home() {
 						src="https://preview.free3d.com/img/2018/04/2397296571055080768/ztn7hhzq-900.jpg"
 						alt="coral reef"
 						w="100%"
+						h={{ base: '50%', lg: 'auto' }}
 						display={{ base: 'none', md: 'block', lg: 'block' }}
+						mt={{ md: '20%' }}
 					/>
 					<Image
 						position="absolute"
