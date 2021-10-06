@@ -9,6 +9,7 @@ import {
 	Button,
 	HStack,
 	Input,
+	Center,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
@@ -18,7 +19,7 @@ export default function Home() {
 			<Header />
 			<Flex
 				p={{ sm: 4, md: '10', lg: '30' }}
-				display={{ sm: 'block', md: 'flex', lg: 'flex' }}
+				display={{ sm: 'block', md: 'flex' }}
 				h="100%"
 				w="100%"
 			>
@@ -26,17 +27,19 @@ export default function Home() {
 					align="left"
 					textAlign={{
 						base: 'center',
-						sm: 'center',
 						md: 'start',
-						lg: 'start',
-						xl: 'start',
 					}}
 				>
 					<Heading mt="50%" fontSize="6xl">
 						Dorsal
 					</Heading>
 					<RotatingText />
-					<HStack pt={10}>
+					<HStack
+						pt={10}
+						w={{ base: '80%', md: '100%' }}
+						display="flex"
+						justify="center"
+					>
 						<Input
 							placeholder="Email address"
 							borderColor="#000000"
@@ -57,7 +60,7 @@ export default function Home() {
 						alt="coral reef"
 						w="100%"
 						h={{ base: '50%', lg: 'auto' }}
-						display={{ base: 'none', md: 'block', lg: 'block' }}
+						display={{ base: 'none', md: 'block' }}
 						mt={{ md: '20%' }}
 					/>
 					<Image
@@ -83,7 +86,7 @@ export default function Home() {
 					<Image
 						position="absolute"
 						src="https://www.aquaticdesign.co.uk/wp-content/uploads/2018/03/Tetrastigma-1.png"
-						alt="ciclid"
+						alt="ciclid 3"
 						w={128}
 						h={128}
 						right="30%"

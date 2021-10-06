@@ -30,7 +30,7 @@ export default function Header() {
 		<Box w="100%" h="auto" borderBottom="1px black">
 			<HStack
 				direction={{ base: 'column', md: 'row' }}
-				position="relative"
+				// position="relative"
 			>
 				<Image
 					src="logo.png"
@@ -41,7 +41,6 @@ export default function Header() {
 					alt="logo"
 				/>
 				<Spacer />
-				{/* <hr /> */}
 				<MdMenu
 					style={{
 						display: isMobile && !isClicked ? 'block' : 'none',
@@ -55,14 +54,15 @@ export default function Header() {
 				<ButtonGroup
 					spacing={{ base: '0', md: '2' }}
 					pr={2}
-					flexDir={{ base: 'column', md: 'row' }}
+					flexDir={{ base: 'column', md: 'column' }}
 					display={{
-						base: isClicked ? 'block' : 'none',
+						base: isClicked ? 'flex' : 'none',
 						md: 'block',
 					}}
 					position={{ base: 'absolute', md: 'static' }}
-					top="100%"
+					top="10%"
 					left="30%"
+					w={{ base: '50%', md: 'auto' }}
 				>
 					<Button
 						bg="brand.offwhite"
