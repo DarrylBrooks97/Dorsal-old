@@ -73,17 +73,18 @@ export default function RotatingText() {
 
 	return (
 		<Box display={{ base: 'block', md: 'inline-block' }}>
-			<Text fontSize={{ base: '2xl', md: '3xl' }}>Aquarium </Text>
-			<Box
-				as="p"
-				ml={{ base: 2, md: 0, xl: 2 }}
+			<Text
+				fontSize={{ base: '2xl', md: '2xl' }}
 				mr={{ base: 2, md: 0, lg: 2, xl: 2 }}
 			>
+				Aquarium
+			</Text>
+			<Box as="p" mr={{ base: 2, md: 0, lg: 2, xl: 2 }}>
 				<Box
 					as="span"
 					className="word"
 					color="brand.blue"
-					fontSize={{ base: '2xl', md: '3xl' }}
+					fontSize={{ base: '2xl', md: '2xl' }}
 				>
 					Design
 				</Box>
@@ -91,7 +92,7 @@ export default function RotatingText() {
 					as="span"
 					className="word"
 					color="brand.yellow"
-					fontSize={{ base: '2xl', md: '3xl' }}
+					fontSize={{ base: '2xl', md: '2xl' }}
 					position="absolute"
 				>
 					Maintenance
@@ -100,12 +101,12 @@ export default function RotatingText() {
 					as="span"
 					className="word"
 					color="brand.green"
-					fontSize={{ base: '2xl', md: '3xl' }}
+					fontSize={{ base: '2xl', md: '2xl' }}
 				>
 					Communities
 				</Box>
 			</Box>
-			<Text fontSize={{ base: '2xl', md: '3xl' }}>Simplified</Text>
+			<Text fontSize={{ base: '2xl', md: '2xl' }}>Simplified</Text>
 		</Box>
 	);
 }

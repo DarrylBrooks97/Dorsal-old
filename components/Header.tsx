@@ -4,7 +4,14 @@ import {
 	Spacer,
 	Button,
 	Image,
+	Flex,
 	ButtonGroup,
+	useDisclosure,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalCloseButton,
+	ModalOverlay,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { MdMenu, MdClose } from 'react-icons/md';
@@ -12,6 +19,7 @@ import { MdMenu, MdClose } from 'react-icons/md';
 export default function Header() {
 	const [isMobile, setIsMobile] = useState(false);
 	const [isClicked, setIsClicked] = useState(false);
+	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
 		if (window) {
@@ -21,6 +29,7 @@ export default function Header() {
 				} else {
 					setIsMobile(false);
 					setIsClicked(false);
+					onClose();
 				}
 			});
 		}
@@ -28,10 +37,7 @@ export default function Header() {
 
 	return (
 		<Box w="100%" h="auto" borderBottom="1px black">
-			<HStack
-				direction={{ base: 'column', md: 'row' }}
-				// position="relative"
-			>
+			<HStack direction={{ base: 'column', md: 'row' }}>
 				<Image
 					src="logo.png"
 					pt={2}
@@ -49,7 +55,7 @@ export default function Header() {
 						width: '32px',
 						transition: 'all 0.5s',
 					}}
-					onClick={() => setIsClicked(!isClicked)}
+					onClick={onOpen}
 				/>
 				<ButtonGroup
 					spacing={{ base: '0', md: '2' }}
@@ -60,8 +66,8 @@ export default function Header() {
 						md: 'block',
 					}}
 					position={{ base: 'absolute', md: 'static' }}
-					top="10%"
-					left="30%"
+					marginLeft={{ base: 'auto' }}
+					marginRight={{ base: 'auto' }}
 					w={{ base: '50%', md: 'auto' }}
 				>
 					<Button
@@ -92,6 +98,34 @@ export default function Header() {
 					onClick={() => setIsClicked(!isClicked)}
 				/>
 			</HStack>
+			<Modal onClose={onClose} size="lg" isOpen={isOpen}>
+				<ModalOverlay backdropFilter="blur(5px)" />
+				<ModalContent>
+					<ModalCloseButton />
+					<ModalBody>
+						<Flex flexDir="column" mt="10">
+							<Button
+								bg="brand.green"
+								mb="5"
+								color="brand.offwhite"
+								_hover={{ color: 'brand.yellow' }}
+							>
+								Sign up
+							</Button>
+							<Button
+								bg="brand.offwhite"
+								color="black"
+								border="2px"
+								borderColor="brand.green"
+								mb="5"
+								_hover={{ color: 'brand.green' }}
+							>
+								Login
+							</Button>
+						</Flex>
+					</ModalBody>
+				</ModalContent>
+			</Modal>
 		</Box>
 	);
 }

@@ -29,25 +29,28 @@ export default function Home() {
 						base: 'center',
 						md: 'start',
 					}}
+					w={{ base: 'auto', md: '60%', xl: 'auto' }}
 				>
 					<Heading mt="50%" fontSize="6xl">
 						Dorsal
 					</Heading>
 					<RotatingText />
-					<HStack
-						pt={10}
-						w={{ base: '80%', md: '100%' }}
-						display="flex"
-						justify="center"
-					>
-						<Input
-							placeholder="Email address"
-							borderColor="#000000"
-						></Input>
-						<Button color="brand.offwhite" bg="brand.green">
-							Sign up
-						</Button>
-					</HStack>
+					<Center>
+						<HStack
+							pt={10}
+							w={{ base: '80%', md: '100%' }}
+							display="flex"
+							justify="center"
+						>
+							<Input
+								placeholder="Email address"
+								borderColor="#000000"
+							></Input>
+							<Button color="brand.offwhite" bg="brand.green">
+								Sign up
+							</Button>
+						</HStack>
+					</Center>
 				</VStack>
 				<Flex
 					flexDirection="column"
