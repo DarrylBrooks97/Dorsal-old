@@ -8,7 +8,6 @@ body {
 	max-width: 1440px;
 	margin: 0 auto;
 	float: none;
-	overflow-x: hidden;
 }
 img {
 	-webkit-user-drag: none;

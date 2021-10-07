@@ -1,4 +1,5 @@
 import RotatingText from '@/components/rotating-text';
+import Header from '@/components/Header';
 import {
 	Box,
 	Flex,
@@ -8,41 +9,48 @@ import {
 	Button,
 	HStack,
 	Input,
+	Center,
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
 export default function Home() {
 	return (
 		<Box bg="brand.offwhite">
+			<Header />
 			<Flex
 				p={{ sm: 4, md: '10', lg: '30' }}
-				h="100vh"
-				w="100vw"
-				display={{ sm: 'block', md: 'flex', lg: 'flex' }}
+				display={{ sm: 'block', md: 'flex' }}
+				h="100%"
+				w="100%"
 			>
 				<VStack
 					align="left"
 					textAlign={{
 						base: 'center',
-						sm: 'center',
 						md: 'start',
-						lg: 'start',
-						xl: 'start',
 					}}
+					w={{ base: 'auto', md: '60%', xl: 'auto' }}
 				>
 					<Heading mt="50%" fontSize="6xl">
 						Dorsal
 					</Heading>
 					<RotatingText />
-					<HStack pt={10}>
-						<Input
-							placeholder="Email address"
-							borderColor="#000000"
-						></Input>
-						<Button color="brand.offwhite" bg="brand.green">
-							Sign up
-						</Button>
-					</HStack>
+					<Center>
+						<HStack
+							pt={10}
+							w={{ base: '80%', md: '100%' }}
+							display="flex"
+							justify="center"
+						>
+							<Input
+								placeholder="Email address"
+								borderColor="#000000"
+							></Input>
+							<Button color="brand.offwhite" bg="brand.green">
+								Sign up
+							</Button>
+						</HStack>
+					</Center>
 				</VStack>
 				<Flex
 					flexDirection="column"
@@ -54,7 +62,9 @@ export default function Home() {
 						src="https://preview.free3d.com/img/2018/04/2397296571055080768/ztn7hhzq-900.jpg"
 						alt="coral reef"
 						w="100%"
-						display={{ base: 'none', md: 'block', lg: 'block' }}
+						h={{ base: '50%', lg: 'auto' }}
+						display={{ base: 'none', md: 'block' }}
+						mt={{ md: '20%' }}
 					/>
 					<Image
 						position="absolute"
@@ -79,7 +89,7 @@ export default function Home() {
 					<Image
 						position="absolute"
 						src="https://www.aquaticdesign.co.uk/wp-content/uploads/2018/03/Tetrastigma-1.png"
-						alt="ciclid"
+						alt="ciclid 3"
 						w={128}
 						h={128}
 						right="30%"
