@@ -17,6 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 						rel: 'icon',
 						href: `${canonicalUrl}/favicon.ico`,
 					},
+					{
+					        rel: 'apple-touch-icon',
+					        href: `${canonicalUrl}/favicon.ico`,
+					        sizes: '76x76'
+					}
 				]}
 				openGraph={{
 					type: 'website',
@@ -32,6 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					],
 				}}
 				twitter={{
+					handle: '@darryl_codes',
 					cardType: 'summary_large_image',
 				}}
 			/>
