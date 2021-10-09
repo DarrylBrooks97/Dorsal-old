@@ -98,7 +98,12 @@ export default function Header() {
 					onClick={() => setIsClicked(!isClicked)}
 				/>
 			</HStack>
-			<Modal onClose={onClose} size="lg" isOpen={isOpen}>
+			<Modal
+				onClose={onClose}
+				size="lg"
+				isOpen={isOpen}
+				motionPreset="slideInBottom"
+			>
 				<ModalOverlay backdropFilter="blur(5px)" />
 				<ModalContent>
 					<ModalCloseButton />
