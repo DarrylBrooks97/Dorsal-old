@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<ChakraProvider theme={theme}>
 			<DefaultSeo
-				defaultTitle="Dorsal 🦈"
+				defaultTitle="Dorsal"
 				description="An platform for aquarium enthusiasts"
 				canonical={canonicalUrl}
 				additionalLinkTags={[
