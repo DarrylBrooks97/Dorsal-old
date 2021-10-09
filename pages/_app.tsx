@@ -11,7 +11,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<DefaultSeo
 				defaultTitle="Dorsal"
 				description="An platform for aquarium enthusiasts"
-				canonical={canonicalUrl}
 				additionalLinkTags={[
 					{
 						rel: 'icon',
@@ -19,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					},
 					{
 					        rel: 'apple-touch-icon',
-					        href: `${canonicalUrl}/favicon.ico`,
+					        href: `${canonicalUrl}/logo.png`,
 					        sizes: '76x76'
 					}
 				]}
