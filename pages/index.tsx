@@ -1,5 +1,9 @@
 import RotatingText from '@/components/rotating-text';
 import Header from '@/components/Header';
+import axios from 'axios';
+import { useState } from 'react';
+import { validateEmail } from '@/utils/validateEmail';
+
 import {
 	Box,
 	Flex,
@@ -11,9 +15,48 @@ import {
 	Input,
 	Center,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 
 export default function Home() {
+	const [signUpEmail, setSignUpEmail] = useState<string>('');
+	const [loginEmail, setLoginInEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('2345@#$%'); // Password should at least be 6 char
+
+	const handleSignUpClick = async () => {
+		if (!validateEmail(loginEmail)) {
+			console.log('not a valid email');
+			return;
+		}
+		try {
+			const { data, err, message }: any = await (
+				await axios.post('/api/auth/signup', {
+					email: loginEmail,
+					password: password,
+				})
+			).data;
+			// If data then its successful
+			// If message then there was an error
+			console.log({ data, err, message });
+		} catch (error) {
+			console.log('Error: ' + error);
+		}
+	};
+	const handleLoginClick = async () => {
+		if (!validateEmail(loginEmail)) {
+			console.log('not a valid email');
+			return;
+		}
+		try {
+			// If data and error are undefined = 200
+			const { data, error }: any = await (
+				await axios.post('/api/auth/login', {
+					loginEmail,
+				})
+			).data;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<Box bg="brand.offwhite">
 			<Header />
@@ -45,8 +88,17 @@ export default function Home() {
 							<Input
 								placeholder="Email address"
 								borderColor="#000000"
+								onChange={(e) => {
+									setLoginInEmail(e.target.value);
+								}}
 							></Input>
-							<Button color="brand.offwhite" bg="brand.green">
+							<Button
+								color="brand.offwhite"
+								bg="brand.green"
+								onClick={() => {
+									handleSignUpClick();
+								}}
+							>
 								Sign up
 							</Button>
 						</HStack>

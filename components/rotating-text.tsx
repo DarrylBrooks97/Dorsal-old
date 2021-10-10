@@ -24,7 +24,6 @@ const temp = () => {
 
 	words[currentWord].style.opacity = '1';
 	words[0].style.position = 'relative';
-	console.log(words[currentWord]);
 
 	for (var i = 0; i < words.length; i++) {
 		splitLetters(words[i]);

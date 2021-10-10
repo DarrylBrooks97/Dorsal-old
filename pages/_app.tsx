@@ -16,10 +16,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 						href: `${canonicalUrl}/favicon.ico`,
 					},
 					{
-					        rel: 'apple-touch-icon',
-					        href: `${canonicalUrl}/logo.png`,
-					        sizes: '76x76'
-					}
+						rel: 'apple-touch-icon',
+						href: `${canonicalUrl}/logo.png`,
+						sizes: '76x76',
+					},
 				]}
 				openGraph={{
 					type: 'website',

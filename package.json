@@ -12,6 +12,8 @@
     "@chakra-ui/react": "^1.6.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@supabase/supabase-js": "^1.24.0",
+    "axios": "^0.22.0",
     "framer-motion": "^4",
     "next": "11.1.2",
     "next-seo": "^4.28.1",
