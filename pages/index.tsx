@@ -1,6 +1,6 @@
 import RotatingText from '@/components/rotating-text';
-import Header from '@/components/Header';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { validateEmail } from '@/utils/validateEmail';
 
@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 
 export default function Home() {
+	const router = useRouter();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
 	const [loginEmail, setLoginInEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('2345@#$%'); // Password should at least be 6 char
@@ -59,7 +60,6 @@ export default function Home() {
 
 	return (
 		<Box bg="brand.offwhite">
-			<Header />
 			<Flex
 				p={{ sm: 4, md: '10', lg: '30' }}
 				display={{ sm: 'block', md: 'flex' }}
@@ -96,7 +96,9 @@ export default function Home() {
 								color="brand.offwhite"
 								bg="brand.green"
 								onClick={() => {
-									handleSignUpClick();
+									router.push('/signup', '', {
+										shallow: true,
+									});
 								}}
 							>
 								Sign up

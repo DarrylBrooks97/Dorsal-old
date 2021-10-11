@@ -13,10 +13,12 @@ import {
 	ModalCloseButton,
 	ModalOverlay,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { MdMenu, MdClose } from 'react-icons/md';
 
 export default function Header() {
+	const router = useRouter();
 	const [isMobile, setIsMobile] = useState(false);
 	const [isClicked, setIsClicked] = useState(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,7 +38,7 @@ export default function Header() {
 	}, []);
 
 	return (
-		<Box w="100%" h="auto" borderBottom="1px black">
+		<Box w="100%" h="auto" borderBottom="1px black" bg="brand.offwhite">
 			<HStack direction={{ base: 'column', md: 'row' }}>
 				<Image
 					src="logo.png"
@@ -114,6 +116,11 @@ export default function Header() {
 								mb="5"
 								color="brand.offwhite"
 								_hover={{ color: 'brand.yellow' }}
+								onClick={() => {
+									router.push('/signup', '', {
+										shallow: true,
+									});
+								}}
 							>
 								Sign up
 							</Button>
@@ -124,6 +131,11 @@ export default function Header() {
 								borderColor="brand.green"
 								mb="5"
 								_hover={{ color: 'brand.green' }}
+								onClick={() => {
+									router.push('/signup', '', {
+										shallow: true,
+									});
+								}}
 							>
 								Login
 							</Button>

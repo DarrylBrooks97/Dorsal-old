@@ -1,5 +1,7 @@
 import { Box, Text } from '@chakra-ui/react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useEffect } from 'react';
+import { baseURL } from '@/constants';
 
 const temp = () => {
 	var words: any = document.getElementsByClassName('word');
@@ -30,6 +32,7 @@ const temp = () => {
 	}
 
 	const changeWord = () => {
+		if (window.location.href !== baseURL) return;
 		var cw: any = wordArray[currentWord];
 		var nw: any =
 			currentWord == words.length - 1
@@ -45,7 +48,6 @@ const temp = () => {
 			nw[0].parentElement.style.opacity = '1';
 			animateLetterIn(nw, i);
 		}
-
 		currentWord = currentWord == wordArray.length - 1 ? 0 : currentWord + 1;
 	};
 
@@ -60,14 +62,15 @@ const temp = () => {
 			nw[i].className = 'letter in';
 		}, 320 + i * 80);
 	};
-
-	changeWord();
-	setInterval(changeWord, 2500);
+	if (window.location.href === baseURL) {
+		changeWord();
+		setInterval(changeWord, 2500);
+	}
 };
 
-export default function RotatingText() {
+export default function RotatingText(): ReactJSXElement {
 	useEffect(() => {
-		if (document) temp();
+		if (window) temp();
 	}, []);
 
 	return (
