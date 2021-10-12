@@ -1,8 +1,5 @@
 import RotatingText from '@/components/rotating-text';
-import axios from 'axios';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { validateEmail } from '@/utils/validateEmail';
 
 import {
 	Box,
@@ -15,49 +12,11 @@ import {
 	Input,
 	Center,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
 	const router = useRouter();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
-	const [loginEmail, setLoginInEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('2345@#$%'); // Password should at least be 6 char
-
-	const handleSignUpClick = async () => {
-		if (!validateEmail(loginEmail)) {
-			console.log('not a valid email');
-			return;
-		}
-		try {
-			const { data, err, message }: any = await (
-				await axios.post('/api/auth/signup', {
-					email: loginEmail,
-					password: password,
-				})
-			).data;
-			// If data then its successful
-			// If message then there was an error
-			console.log({ data, err, message });
-		} catch (error) {
-			console.log('Error: ' + error);
-		}
-	};
-	const handleLoginClick = async () => {
-		if (!validateEmail(loginEmail)) {
-			console.log('not a valid email');
-			return;
-		}
-		try {
-			// If data and error are undefined = 200
-			const { data, error }: any = await (
-				await axios.post('/api/auth/login', {
-					loginEmail,
-				})
-			).data;
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
 	return (
 		<Box bg="brand.offwhite">
 			<Flex
@@ -89,7 +48,7 @@ export default function Home() {
 								placeholder="Email address"
 								borderColor="#000000"
 								onChange={(e) => {
-									setLoginInEmail(e.target.value);
+									setSignUpEmail(e.target.value);
 								}}
 							></Input>
 							<Button
