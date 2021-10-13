@@ -15,6 +15,8 @@ import { BsTwitter, BsFacebook } from 'react-icons/bs';
 import { validateEmail } from '@/utils/validateEmail';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { Provider } from '@supabase/supabase-js';
+import Supabase from '@/clients/supabase';
 
 export default function SignUp(): ReactJSXElement {
 	const router = useRouter();
@@ -22,8 +24,9 @@ export default function SignUp(): ReactJSXElement {
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>(''); // Password should at least be 6 char
 
-	const handleSignUpClick = async () => {
-		if (!validateEmail(signUpEmail)) {
+	const handleSignUpClick = async (provider: Provider | undefined) => {
+		const supabase = new Supabase();
+		if (provider === undefined && !validateEmail(signUpEmail)) {
 			console.log('not a valid email');
 			toast({
 				title: 'Not a valid email address',
@@ -34,12 +37,24 @@ export default function SignUp(): ReactJSXElement {
 			return;
 		}
 		try {
-			const { data, err, message }: any = await (
-				await axios.post('/api/auth/signup', {
-					email: signUpEmail,
-					password: password,
-				})
-			).data;
+			// const { data, err, message }: any = await (
+			// 	await axios.post('/api/auth/signup', {
+			// 		email: signUpEmail,
+			// 		password: password,
+			// 		provider: provider,
+			// 	})
+			// ).data;
+			const {
+				user,
+				data,
+				error: err,
+				message,
+			}: any = await supabase.client.auth.signIn(
+				{
+					provider: provider,
+				},
+				{ redirectTo: 'http://localhost:3000/' }
+			);
 			// If data then its successful
 			// If message then there was an error
 			toast({
@@ -48,30 +63,29 @@ export default function SignUp(): ReactJSXElement {
 				duration: 5000,
 				isClosable: true,
 			});
-			console.log({ data, err, message });
+			console.log({ data, err, message, user });
 		} catch (error) {
 			console.log('Error: ' + error);
 		}
 	};
-	const handleLoginClick = async () => {
-		if (!validateEmail(signUpEmail)) {
-			console.log('not a valid email');
-			return;
-		}
-		try {
-			// If data and error are undefined = 200
-			const { data, error }: any = await (
-				await axios.post('/api/auth/login', {
-					signUpEmail,
-				})
-			).data;
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	// const handleLoginClick = async () => {
+	// 	if (!validateEmail(signUpEmail)) {
+	// 		console.log('not a valid email');
+	// 		return;
+	// 	}
+	// 	try {
+	// 		// If data and error are undefined = 200
+	// 		const { data, error }: any = await (
+	// 			await axios.post('/api/auth/login', {
+	// 				signUpEmail,
+	// 			})
+	// 		).data;
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
 	return (
 		<Box
-			/*bg="red"*/
 			h="90vh"
 			display="flex"
 			alignItems="center"
@@ -105,7 +119,7 @@ export default function SignUp(): ReactJSXElement {
 							color="brand.offwhite"
 							_hover={{ color: 'brand.yellow' }}
 							w="100%"
-							onClick={() => handleSignUpClick()}
+							onClick={() => handleSignUpClick(undefined)}
 						>
 							Sign up
 						</Button>
@@ -115,13 +129,25 @@ export default function SignUp(): ReactJSXElement {
 						<Box h="1px" borderColor="black"></Box>
 					</HStack>
 					<VStack w="100%" p="50px 0px">
-						<Button leftIcon={<FcGoogle />} w="100%">
+						<Button
+							leftIcon={<FcGoogle />}
+							w="100%"
+							onClick={() => handleSignUpClick('google')}
+						>
 							Continue with Google
 						</Button>
-						<Button leftIcon={<BsFacebook />} w="100%">
+						<Button
+							leftIcon={<BsFacebook />}
+							w="100%"
+							onClick={() => handleSignUpClick('facebook')}
+						>
 							Continue with Facebook
 						</Button>
-						<Button leftIcon={<BsTwitter />} w="100%">
+						<Button
+							leftIcon={<BsTwitter />}
+							w="100%"
+							onClick={() => handleSignUpClick('twitter')}
+						>
 							Continue with Twitter
 						</Button>
 					</VStack>

@@ -2,6 +2,7 @@ import {
 	createClient,
 	PostgrestResponse,
 	SupabaseClient,
+	UserCredentials,
 } from '@supabase/supabase-js';
 import { Credentials } from 'types';
 
@@ -27,12 +28,12 @@ export default class Supabase {
 		return { data, error };
 	}
 
-	async login(email: string) {
-		let { user, error } = await this.client.auth.signIn({
-			email,
+	async login({ provider }: UserCredentials) {
+		const { user, session, error } = await this.client.auth.signIn({
+			provider: 'google',
 		});
-
-		return { user, error };
+		console.log({ user, session, error, provider });
+		return { user, session, error };
 	}
 	async getAll(table: string) {
 		const {

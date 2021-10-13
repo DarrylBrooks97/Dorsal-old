@@ -10,14 +10,26 @@ export default async function handler(
 
 	switch (method) {
 		case 'signup':
-			if (req.method !== 'POST') res.status(400);
-			const { email, password } = req.body;
+			if (req.method !== 'POST') res.status(404);
+			const { email, password, provider } = req.body;
+
+			if (provider) {
+				const { user, session, error } = await supabase.login({
+					provider,
+				});
+				return res.status(200).json({
+					data: user,
+					err: error,
+					message: session,
+				});
+			}
+
 			const { data: userSignup, error: err } = await supabase.signUp({
 				email,
 				password,
 			});
 
-			res.status(200).json({
+			return res.status(200).json({
 				data: userSignup,
 				err,
 				message: err?.message,
