@@ -14,20 +14,35 @@ import { FcGoogle } from 'react-icons/fc';
 import { BsTwitter, BsFacebook } from 'react-icons/bs';
 import { validateEmail } from '@/utils/validateEmail';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { Provider } from '@supabase/supabase-js';
 import Supabase from '@/clients/supabase';
+import { Credentials } from '@/types';
 
 export default function SignUp(): ReactJSXElement {
 	const router = useRouter();
 	const toast = useToast();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>(''); // Password should at least be 6 char
+	const supabase = new Supabase();
 
-	const handleSignUpClick = async (provider: Provider | undefined) => {
-		const supabase = new Supabase();
-		if (provider === undefined && !validateEmail(signUpEmail)) {
-			console.log('not a valid email');
+	const handleProviderSignUp = async (provider: Provider) =>{
+		const {
+			user,
+			data,
+			error
+		}: any = await supabase.providerAuth(provider);
+		// If data then its successful
+		// If message then there was an error
+		toast({
+			title: `${error}` ?? 'Success',
+			status: error ? 'warning' : 'success',
+			duration: 5000,
+			isClosable: true,
+		});
+		console.log({ user, data, error });
+	}
+	const handleEmailSignUp = async ({email,password}:Credentials) => {
+		if (!validateEmail(signUpEmail)) {
 			toast({
 				title: 'Not a valid email address',
 				status: 'warning',
@@ -36,54 +51,18 @@ export default function SignUp(): ReactJSXElement {
 			});
 			return;
 		}
-		try {
-			// const { data, err, message }: any = await (
-			// 	await axios.post('/api/auth/signup', {
-			// 		email: signUpEmail,
-			// 		password: password,
-			// 		provider: provider,
-			// 	})
-			// ).data;
-			const {
-				user,
-				data,
-				error: err,
-				message,
-			}: any = await supabase.client.auth.signIn(
-				{
-					provider: provider,
-				},
-				{ redirectTo: 'http://localhost:3000/' }
-			);
-			// If data then its successful
-			// If message then there was an error
+			const {data,error} = await supabase.signUp({
+				email,
+				password,
+			});
+			
 			toast({
-				title: `${err}` ?? 'Success',
-				status: err ? 'warning' : 'success',
+				title: `${error}` ?? 'Success',
+				status: error ? 'warning' : 'success',
 				duration: 5000,
 				isClosable: true,
 			});
-			console.log({ data, err, message, user });
-		} catch (error) {
-			console.log('Error: ' + error);
-		}
 	};
-	// const handleLoginClick = async () => {
-	// 	if (!validateEmail(signUpEmail)) {
-	// 		console.log('not a valid email');
-	// 		return;
-	// 	}
-	// 	try {
-	// 		// If data and error are undefined = 200
-	// 		const { data, error }: any = await (
-	// 			await axios.post('/api/auth/login', {
-	// 				signUpEmail,
-	// 			})
-	// 		).data;
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
 	return (
 		<Box
 			h="90vh"
@@ -119,7 +98,7 @@ export default function SignUp(): ReactJSXElement {
 							color="brand.offwhite"
 							_hover={{ color: 'brand.yellow' }}
 							w="100%"
-							onClick={() => handleSignUpClick(undefined)}
+							onClick={() => handleEmailSignUp({email:signUpEmail,password})}
 						>
 							Sign up
 						</Button>
@@ -132,21 +111,21 @@ export default function SignUp(): ReactJSXElement {
 						<Button
 							leftIcon={<FcGoogle />}
 							w="100%"
-							onClick={() => handleSignUpClick('google')}
+							onClick={() => handleProviderSignUp('google')}
 						>
 							Continue with Google
 						</Button>
 						<Button
 							leftIcon={<BsFacebook />}
 							w="100%"
-							onClick={() => handleSignUpClick('facebook')}
+							onClick={() => handleProviderSignUp('facebook')}
 						>
 							Continue with Facebook
 						</Button>
 						<Button
 							leftIcon={<BsTwitter />}
 							w="100%"
-							onClick={() => handleSignUpClick('twitter')}
+							onClick={() => handleProviderSignUp('twitter')}
 						>
 							Continue with Twitter
 						</Button>
