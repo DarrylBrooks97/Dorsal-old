@@ -47,6 +47,10 @@ export default function Header() {
 					w={{ base: '64px', lg: '64px' }}
 					h={{ base: '64px', lg: '64px' }}
 					alt="logo"
+					onClick={() =>
+						window.location.pathname !== '/' ? router.push('/') : ''
+					}
+					cursor="pointer"
 				/>
 				<Spacer />
 				<MdMenu
@@ -77,6 +81,11 @@ export default function Header() {
 						color="black"
 						border="2px"
 						borderColor="brand.green"
+						onClick={() =>
+							window.location.pathname !== '/login'
+								? router.push('/login')
+								: ''
+						}
 						_hover={{ color: 'brand.green' }}
 					>
 						Login
@@ -85,6 +94,11 @@ export default function Header() {
 						bg="brand.green"
 						mt={{ base: '2', md: '0' }}
 						color="brand.offwhite"
+						onClick={() =>
+							window.location.pathname !== '/signup'
+								? router.push('/signup')
+								: ''
+						}
 						_hover={{ color: 'brand.yellow' }}
 					>
 						Sign up
@@ -117,9 +131,10 @@ export default function Header() {
 								color="brand.offwhite"
 								_hover={{ color: 'brand.yellow' }}
 								onClick={() => {
-									router.push('/signup', '', {
-										shallow: true,
-									});
+									window.location.pathname !== '/signup'
+										? router.push('/signup')
+										: '';
+									onClose();
 								}}
 							>
 								Sign up
@@ -132,9 +147,10 @@ export default function Header() {
 								mb="5"
 								_hover={{ color: 'brand.green' }}
 								onClick={() => {
-									router.push('/signup', '', {
-										shallow: true,
-									});
+									window.location.pathname !== '/login'
+										? router.push('/login')
+										: '';
+									onClose();
 								}}
 							>
 								Login

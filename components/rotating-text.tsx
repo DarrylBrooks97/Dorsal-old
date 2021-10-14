@@ -32,7 +32,7 @@ const temp = () => {
 	}
 
 	const changeWord = () => {
-		if (window.location.href !== baseURL) return;
+		if (window.location.pathname !== '/') return;
 		var cw: any = wordArray[currentWord];
 		var nw: any =
 			currentWord == words.length - 1
@@ -62,7 +62,7 @@ const temp = () => {
 			nw[i].className = 'letter in';
 		}, 320 + i * 80);
 	};
-	if (window.location.href === baseURL) {
+	if (window.location.pathname === '/') {
 		changeWord();
 		setInterval(changeWord, 2500);
 	}

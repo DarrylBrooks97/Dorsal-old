@@ -7,8 +7,8 @@ import {
 	Button,
 	Text,
 	HStack,
-	Link,
 	useToast,
+	Link,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
@@ -16,32 +16,32 @@ import { BsTwitter, BsFacebook } from 'react-icons/bs';
 import { validateEmail } from '@/utils/validateEmail';
 import { useRouter } from 'next/router';
 import { Provider } from '@supabase/supabase-js';
-import Supabase from '@/clients/supabase';
 import { Credentials } from '@/types';
+import Supabase from '@/clients/supabase';
 
-export default function SignUp(): ReactJSXElement {
+export default function Login(): ReactJSXElement {
 	const router = useRouter();
 	const toast = useToast();
-	const [signUpEmail, setSignUpEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>(''); // Password should at least be 6 char
+	const [loginEmail, setLoginEmail] = useState<string>('');
 	const supabase = new Supabase();
 
-	const handleProviderSignUp = async (provider: Provider) => {
+	const handleProviderLogin = async (provider: Provider) => {
 		const { user, data, error }: any = await supabase.providerAuth(
 			provider
 		);
+		console.log({ user, data, error });
 		// If data then its successful
 		// If message then there was an error
 		toast({
-			title: `${error}` ?? 'Success',
+			title: error ?? 'Success',
 			status: error ? 'warning' : 'success',
 			duration: 5000,
 			isClosable: true,
 		});
 		console.log({ user, data, error });
 	};
-	const handleEmailSignUp = async ({ email, password }: Credentials) => {
-		if (!validateEmail(signUpEmail)) {
+	const handleEmailLogin = async ({ email }: Credentials) => {
+		if (!validateEmail(loginEmail)) {
 			toast({
 				title: 'Not a valid email address',
 				status: 'warning',
@@ -50,13 +50,12 @@ export default function SignUp(): ReactJSXElement {
 			});
 			return;
 		}
-		const { data, error } = await supabase.signUp({
+		const { error } = await supabase.login({
 			email,
-			password,
 		});
 
 		toast({
-			title: `${error}` ?? 'Success',
+			title: error ?? 'Check your email for login !',
 			status: error ? 'warning' : 'success',
 			duration: 5000,
 			isClosable: true,
@@ -73,24 +72,14 @@ export default function SignUp(): ReactJSXElement {
 			<Flex w="300px" h="600px" borderRadius="25px">
 				<VStack w="100%" p="2px">
 					<Text fontSize="6xl">Dorsal 🦈</Text>
-					<Text fontSize="1.3125rem">Become an Aquarist today</Text>
-					<VStack w="100%">
+					<VStack w="100%" spacing={5}>
 						<Input
 							placeholder="Email address"
 							w="100%"
 							_focus={{ borderColor: 'brand.green' }}
 							onChange={(e) => {
-								setSignUpEmail(e.target.value);
+								setLoginEmail(e.target.value);
 							}}
-						/>
-						<Input
-							placeholder="Password"
-							w="100%"
-							_focus={{ borderColor: 'brand.green' }}
-							onChange={(e) => {
-								setPassword(e.target.value);
-							}}
-							type="password"
 						/>
 						<Button
 							bg="brand.green"
@@ -98,13 +87,12 @@ export default function SignUp(): ReactJSXElement {
 							_hover={{ color: 'brand.yellow' }}
 							w="100%"
 							onClick={() =>
-								handleEmailSignUp({
-									email: signUpEmail,
-									password,
+								handleEmailLogin({
+									email: loginEmail,
 								})
 							}
 						>
-							Sign up
+							Login
 						</Button>
 					</VStack>
 					<HStack justify="space-between" w="100%" pt="10px">
@@ -120,29 +108,29 @@ export default function SignUp(): ReactJSXElement {
 						<Button
 							leftIcon={<FcGoogle />}
 							w="100%"
-							onClick={() => handleProviderSignUp('google')}
+							onClick={() => handleProviderLogin('google')}
 						>
 							Continue with Google
 						</Button>
 						<Button
 							leftIcon={<BsFacebook />}
 							w="100%"
-							onClick={() => handleProviderSignUp('facebook')}
+							onClick={() => handleProviderLogin('facebook')}
 						>
 							Continue with Facebook
 						</Button>
 						<Button
 							leftIcon={<BsTwitter />}
 							w="100%"
-							onClick={() => handleProviderSignUp('twitter')}
+							onClick={() => handleProviderLogin('twitter')}
 						>
 							Continue with Twitter
 						</Button>
 					</VStack>
 					<Text fontSize="md">
-						Already a member?{' '}
-						<Link href="/login" _hover={{ color: 'brand.green' }}>
-							Login
+						Don't have an account?{' '}
+						<Link href="/signup" _hover={{ color: 'brand.green' }}>
+							Sign up
 						</Link>
 					</Text>
 				</VStack>

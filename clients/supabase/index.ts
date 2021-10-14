@@ -28,24 +28,25 @@ export default class Supabase {
 		return { data, error };
 	}
 
-	async login({email,password}:Credentials) {
-		const { user, session, error } = await this.client.auth.signIn({
-			provider: 'google',
+	async login({ email }: Credentials) {
+		const { error } = await this.client.auth.signIn({
+			email: email,
 		});
-		console.log({ user, session, error });
-		return { user, session, error };
+		return { error };
 	}
-	async providerAuth(provider:Provider) {
-		const { user, session, error } = await this.client.auth.signIn({
-			provider,
-		},{redirectTo:'/'});
+	async providerAuth(provider: Provider) {
+		const { user, session, error } = await this.client.auth.signIn(
+			{
+				provider,
+			},
+			{ redirectTo: '/' }
+		);
 		return { user, error, session };
 	}
 	async getAll(table: string) {
-		const {
-			data: fish,
-			error,
-		}: PostgrestResponse<any> = await this.client.from(table).select('*');
+		const { data: fish, error }: PostgrestResponse<any> = await this.client
+			.from(table)
+			.select('*');
 
 		return { fish, error };
 	}
