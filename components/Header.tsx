@@ -1,3 +1,7 @@
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { MdMenu, MdClose } from 'react-icons/md';
 import {
 	Box,
 	HStack,
@@ -13,32 +17,30 @@ import {
 	ModalCloseButton,
 	ModalOverlay,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { useState, useEffect, Component } from 'react';
-import { MdMenu, MdClose } from 'react-icons/md';
 
-export default function Header() {
+export default function Header(): ReactJSXElement {
 	const router = useRouter();
-	const [isMobile, setIsMobile] = useState<boolean>(true);
+	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [isClicked, setIsClicked] = useState<boolean>(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
 		if (typeof window) {
-			setIsMobile(window.innerWidth < 768);
-			setIsClicked(window.innerWidth > 768);
-			window.innerWidth > 768 ? onClose() : '';
-			// window.addEventListener('resize', () => {
-			// 	if (window.innerWidth < 768) {
-			// 		setIsMobile(true);
-			// 	} else {
-			// 		setIsMobile(false);
-			// 		setIsClicked(false);
-			// 		onClose();
-			// 	}
-			// });
+			window.addEventListener('load', () => {
+				setIsMobile(window.innerWidth < 768);
+			});
+
+			window.addEventListener('resize', () => {
+				if (window.innerWidth < 768) {
+					setIsMobile(true);
+				} else {
+					setIsMobile(false);
+					setIsClicked(false);
+					onClose();
+				}
+			});
 		}
-	}, [, onClose]);
+	}, []);
 
 	return (
 		<Box w="100%" h="auto" borderBottom="1px black" bg="brand.offwhite">
@@ -63,21 +65,22 @@ export default function Header() {
 						height: '32px',
 						width: '32px',
 						transition: 'all 0.5s',
+						cursor: 'pointer',
 					}}
 					onClick={onOpen}
 				/>
 				<ButtonGroup
-					spacing={{ base: '0', md: '2' }}
 					pr={2}
+					spacing={{ base: '0', md: '2' }}
 					flexDir={{ base: 'column', md: 'column' }}
-					display={{
-						base: isClicked ? 'flex' : 'none',
-						md: 'block',
-					}}
 					position={{ base: 'absolute', md: 'static' }}
 					marginLeft={{ base: 'auto' }}
 					marginRight={{ base: 'auto' }}
 					w={{ base: '50%', md: 'auto' }}
+					display={{
+						base: isClicked ? 'flex' : 'none',
+						md: 'block',
+					}}
 				>
 					<Button
 						bg="brand.offwhite"
@@ -95,8 +98,8 @@ export default function Header() {
 					</Button>
 					<Button
 						bg="brand.green"
-						mt={{ base: '2', md: '0' }}
 						color="brand.offwhite"
+						mt={{ base: '2', md: '0' }}
 						onClick={() =>
 							window.location.pathname !== '/signup'
 								? router.push('/signup')
@@ -118,10 +121,10 @@ export default function Header() {
 				/>
 			</HStack>
 			<Modal
-				onClose={onClose}
 				size="lg"
-				isOpen={isOpen}
 				motionPreset="slideInBottom"
+				onClose={onClose}
+				isOpen={isOpen}
 			>
 				<ModalOverlay backdropFilter="blur(5px)" />
 				<ModalContent>

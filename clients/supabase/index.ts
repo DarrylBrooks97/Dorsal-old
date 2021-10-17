@@ -1,10 +1,10 @@
+import { Credentials } from 'types';
 import {
 	createClient,
 	PostgrestResponse,
 	SupabaseClient,
 	Provider,
 } from '@supabase/supabase-js';
-import { Credentials } from 'types';
 
 export default class Supabase {
 	client: SupabaseClient;

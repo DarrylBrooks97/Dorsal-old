@@ -1,4 +1,10 @@
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { BsTwitter, BsFacebook } from 'react-icons/bs';
+import { validateEmail } from '@/utils/validateEmail';
+import { Provider } from '@supabase/supabase-js';
+import Supabase from '@/clients/supabase';
 import {
 	Box,
 	VStack,
@@ -10,26 +16,14 @@ import {
 	useToast,
 	Link,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import { BsTwitter, BsFacebook } from 'react-icons/bs';
-import { validateEmail } from '@/utils/validateEmail';
-import { useRouter } from 'next/router';
-import { Provider } from '@supabase/supabase-js';
-import { Credentials } from '@/types';
-import Supabase from '@/clients/supabase';
 
 export default function Login(): ReactJSXElement {
-	const router = useRouter();
-	const toast = useToast();
 	const [loginEmail, setLoginEmail] = useState<string>('');
 	const supabase = new Supabase();
+	const toast = useToast();
 
 	const handleProviderLogin = async (provider: Provider) => {
-		const { user, data, error }: any = await supabase.providerAuth(
-			provider
-		);
-		console.log({ user, data, error });
+		const { error }: any = await supabase.providerAuth(provider);
 
 		toast({
 			title: error ?? 'Success',
@@ -37,9 +31,8 @@ export default function Login(): ReactJSXElement {
 			duration: 5000,
 			isClosable: true,
 		});
-		console.log({ user, data, error });
 	};
-	const handleEmailLogin = async ({ email }: Credentials) => {
+	const handleEmailLogin = async (email: string) => {
 		if (!validateEmail(loginEmail)) {
 			toast({
 				title: 'Not a valid email address',
@@ -83,13 +76,9 @@ export default function Login(): ReactJSXElement {
 						<Button
 							bg="brand.green"
 							color="brand.offwhite"
-							_hover={{ color: 'brand.yellow' }}
 							w="100%"
-							onClick={() =>
-								handleEmailLogin({
-									email: loginEmail,
-								})
-							}
+							_hover={{ color: 'brand.yellow' }}
+							onClick={() => handleEmailLogin(loginEmail)}
 						>
 							Login
 						</Button>
