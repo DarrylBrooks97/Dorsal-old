@@ -30,8 +30,7 @@ export default function Login(): ReactJSXElement {
 			provider
 		);
 		console.log({ user, data, error });
-		// If data then its successful
-		// If message then there was an error
+
 		toast({
 			title: error ?? 'Success',
 			status: error ? 'warning' : 'success',
@@ -128,7 +127,7 @@ export default function Login(): ReactJSXElement {
 						</Button>
 					</VStack>
 					<Text fontSize="md">
-						Don't have an account?{' '}
+						Don&apos;t have an account?{' '}
 						<Link href="/signup" _hover={{ color: 'brand.green' }}>
 							Sign up
 						</Link>

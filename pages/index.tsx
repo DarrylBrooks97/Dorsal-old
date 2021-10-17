@@ -1,6 +1,6 @@
 import RotatingText from '@/components/rotating-text';
 import { useState } from 'react';
-
+import { useRouter } from 'next/router';
 import {
 	Box,
 	Flex,
@@ -12,7 +12,6 @@ import {
 	Input,
 	Center,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 export default function Home() {
 	const router = useRouter();

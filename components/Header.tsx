@@ -14,28 +14,31 @@ import {
 	ModalOverlay,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Component } from 'react';
 import { MdMenu, MdClose } from 'react-icons/md';
 
 export default function Header() {
 	const router = useRouter();
-	const [isMobile, setIsMobile] = useState(false);
-	const [isClicked, setIsClicked] = useState(false);
+	const [isMobile, setIsMobile] = useState<boolean>(true);
+	const [isClicked, setIsClicked] = useState<boolean>(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
-		if (window) {
-			window.addEventListener('resize', () => {
-				if (window.innerWidth < 768) {
-					setIsMobile(true);
-				} else {
-					setIsMobile(false);
-					setIsClicked(false);
-					onClose();
-				}
-			});
+		if (typeof window) {
+			setIsMobile(window.innerWidth < 768);
+			setIsClicked(window.innerWidth > 768);
+			window.innerWidth > 768 ? onClose() : '';
+			// window.addEventListener('resize', () => {
+			// 	if (window.innerWidth < 768) {
+			// 		setIsMobile(true);
+			// 	} else {
+			// 		setIsMobile(false);
+			// 		setIsClicked(false);
+			// 		onClose();
+			// 	}
+			// });
 		}
-	}, []);
+	}, [, onClose]);
 
 	return (
 		<Box w="100%" h="auto" borderBottom="1px black" bg="brand.offwhite">

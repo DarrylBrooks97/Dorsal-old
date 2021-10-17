@@ -1,9 +1,8 @@
-import { Box, Text } from '@chakra-ui/react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useEffect } from 'react';
-import { baseURL } from '@/constants';
+import { Box, Text } from '@chakra-ui/react';
 
-const temp = () => {
+const animation = () => {
 	var words: any = document.getElementsByClassName('word');
 	var wordArray: HTMLSpanElement[][] = [];
 	var currentWord = 0;
@@ -70,7 +69,7 @@ const temp = () => {
 
 export default function RotatingText(): ReactJSXElement {
 	useEffect(() => {
-		if (window) temp();
+		if (window) animation();
 	}, []);
 
 	return (
