@@ -1,3 +1,7 @@
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { MdMenu, MdClose } from 'react-icons/md';
 import {
 	Box,
 	HStack,
@@ -13,16 +17,19 @@ import {
 	ModalCloseButton,
 	ModalOverlay,
 } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
-import { MdMenu, MdClose } from 'react-icons/md';
 
-export default function Header() {
-	const [isMobile, setIsMobile] = useState(false);
-	const [isClicked, setIsClicked] = useState(false);
+export default function Header(): ReactJSXElement {
+	const router = useRouter();
+	const [isMobile, setIsMobile] = useState<boolean>(false);
+	const [isClicked, setIsClicked] = useState<boolean>(false);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	useEffect(() => {
-		if (window) {
+		if (typeof window) {
+			window.addEventListener('load', () => {
+				setIsMobile(window.innerWidth < 768);
+			});
+
 			window.addEventListener('resize', () => {
 				if (window.innerWidth < 768) {
 					setIsMobile(true);
@@ -36,7 +43,7 @@ export default function Header() {
 	}, []);
 
 	return (
-		<Box w="100%" h="auto" borderBottom="1px black">
+		<Box w="100%" h="auto" borderBottom="1px black" bg="brand.offwhite">
 			<HStack direction={{ base: 'column', md: 'row' }}>
 				<Image
 					src="logo.png"
@@ -45,6 +52,10 @@ export default function Header() {
 					w={{ base: '64px', lg: '64px' }}
 					h={{ base: '64px', lg: '64px' }}
 					alt="logo"
+					onClick={() =>
+						window.location.pathname !== '/' ? router.push('/') : ''
+					}
+					cursor="pointer"
 				/>
 				<Spacer />
 				<MdMenu
@@ -54,35 +65,46 @@ export default function Header() {
 						height: '32px',
 						width: '32px',
 						transition: 'all 0.5s',
+						cursor: 'pointer',
 					}}
 					onClick={onOpen}
 				/>
 				<ButtonGroup
-					spacing={{ base: '0', md: '2' }}
 					pr={2}
+					spacing={{ base: '0', md: '2' }}
 					flexDir={{ base: 'column', md: 'column' }}
-					display={{
-						base: isClicked ? 'flex' : 'none',
-						md: 'block',
-					}}
 					position={{ base: 'absolute', md: 'static' }}
 					marginLeft={{ base: 'auto' }}
 					marginRight={{ base: 'auto' }}
 					w={{ base: '50%', md: 'auto' }}
+					display={{
+						base: isClicked ? 'flex' : 'none',
+						md: 'block',
+					}}
 				>
 					<Button
 						bg="brand.offwhite"
 						color="black"
 						border="2px"
 						borderColor="brand.green"
+						onClick={() =>
+							window.location.pathname !== '/login'
+								? router.push('/login')
+								: ''
+						}
 						_hover={{ color: 'brand.green' }}
 					>
 						Login
 					</Button>
 					<Button
 						bg="brand.green"
-						mt={{ base: '2', md: '0' }}
 						color="brand.offwhite"
+						mt={{ base: '2', md: '0' }}
+						onClick={() =>
+							window.location.pathname !== '/signup'
+								? router.push('/signup')
+								: ''
+						}
 						_hover={{ color: 'brand.yellow' }}
 					>
 						Sign up
@@ -99,10 +121,10 @@ export default function Header() {
 				/>
 			</HStack>
 			<Modal
-				onClose={onClose}
 				size="lg"
-				isOpen={isOpen}
 				motionPreset="slideInBottom"
+				onClose={onClose}
+				isOpen={isOpen}
 			>
 				<ModalOverlay backdropFilter="blur(5px)" />
 				<ModalContent>
@@ -114,6 +136,12 @@ export default function Header() {
 								mb="5"
 								color="brand.offwhite"
 								_hover={{ color: 'brand.yellow' }}
+								onClick={() => {
+									window.location.pathname !== '/signup'
+										? router.push('/signup')
+										: '';
+									onClose();
+								}}
 							>
 								Sign up
 							</Button>
@@ -124,6 +152,12 @@ export default function Header() {
 								borderColor="brand.green"
 								mb="5"
 								_hover={{ color: 'brand.green' }}
+								onClick={() => {
+									window.location.pathname !== '/login'
+										? router.push('/login')
+										: '';
+									onClose();
+								}}
 							>
 								Login
 							</Button>

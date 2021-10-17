@@ -1,7 +1,8 @@
-import { Box, Text } from '@chakra-ui/react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useEffect } from 'react';
+import { Box, Text } from '@chakra-ui/react';
 
-const temp = () => {
+const animation = () => {
 	var words: any = document.getElementsByClassName('word');
 	var wordArray: HTMLSpanElement[][] = [];
 	var currentWord = 0;
@@ -24,13 +25,13 @@ const temp = () => {
 
 	words[currentWord].style.opacity = '1';
 	words[0].style.position = 'relative';
-	console.log(words[currentWord]);
 
 	for (var i = 0; i < words.length; i++) {
 		splitLetters(words[i]);
 	}
 
 	const changeWord = () => {
+		if (window.location.pathname !== '/') return;
 		var cw: any = wordArray[currentWord];
 		var nw: any =
 			currentWord == words.length - 1
@@ -46,7 +47,6 @@ const temp = () => {
 			nw[0].parentElement.style.opacity = '1';
 			animateLetterIn(nw, i);
 		}
-
 		currentWord = currentWord == wordArray.length - 1 ? 0 : currentWord + 1;
 	};
 
@@ -61,14 +61,15 @@ const temp = () => {
 			nw[i].className = 'letter in';
 		}, 320 + i * 80);
 	};
-
-	changeWord();
-	setInterval(changeWord, 2500);
+	if (window.location.pathname === '/') {
+		changeWord();
+		setInterval(changeWord, 2500);
+	}
 };
 
-export default function RotatingText() {
+export default function RotatingText(): ReactJSXElement {
 	useEffect(() => {
-		if (document) temp();
+		if (window) animation();
 	}, []);
 
 	return (
