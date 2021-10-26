@@ -2,6 +2,7 @@ import RotatingText from '@/components/rotating-text';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { homepageImages } from '@/constants';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import {
 	Box,
 	Flex,
@@ -14,9 +15,10 @@ import {
 	Center,
 } from '@chakra-ui/react';
 
-export default function Home() {
+export default function Home(): ReactJSXElement {
 	const router = useRouter();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
+
 	return (
 		<Box bg="brand.offwhite">
 			<Flex
@@ -39,26 +41,26 @@ export default function Home() {
 					<RotatingText />
 					<Center>
 						<HStack
-							pt={10}
-							w={{ base: '80%', md: '100%' }}
 							display="flex"
 							justify="center"
+							pt={10}
+							w={{ base: '80%', md: '100%' }}
 						>
 							<Input
 								placeholder="Email address"
 								borderColor="#000000"
-								onChange={(e) => {
-									setSignUpEmail(e.target.value);
-								}}
+								onChange={(e): void =>
+									setSignUpEmail(e.target.value)
+								}
 							></Input>
 							<Button
 								color="brand.offwhite"
 								bg="brand.green"
-								onClick={() => {
+								onClick={(): Promise<boolean> =>
 									router.push('/signup', '', {
 										shallow: true,
-									});
-								}}
+									})
+								}
 							>
 								Sign up
 							</Button>

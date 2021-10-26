@@ -1,4 +1,11 @@
+import Supabase from '@/clients/supabase';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import { useState } from 'react';
+import { FcGoogle } from 'react-icons/fc';
+import { BsTwitter, BsFacebook } from 'react-icons/bs';
+import { validateEmail } from '@/utils/validateEmail';
+import { Provider } from '@supabase/supabase-js';
+import { Credentials } from '@/types';
 import {
 	Box,
 	VStack,
@@ -10,26 +17,15 @@ import {
 	Link,
 	useToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { FcGoogle } from 'react-icons/fc';
-import { BsTwitter, BsFacebook } from 'react-icons/bs';
-import { validateEmail } from '@/utils/validateEmail';
-import { useRouter } from 'next/router';
-import { Provider } from '@supabase/supabase-js';
-import Supabase from '@/clients/supabase';
-import { Credentials } from '@/types';
 
 export default function SignUp(): ReactJSXElement {
-	const router = useRouter();
 	const toast = useToast();
+	const supabase: Supabase = new Supabase();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>(''); // Password should at least be 6 char
-	const supabase = new Supabase();
 
-	const handleProviderSignUp = async (provider: Provider) => {
-		const { user, data, error }: any = await supabase.providerAuth(
-			provider
-		);
+	const handleProviderSignUp = async (provider: Provider): Promise<void> => {
+		const { data, error }: any = await supabase.providerAuth(provider);
 		// If data then its successful
 		// If message then there was an error
 		toast({
@@ -38,9 +34,11 @@ export default function SignUp(): ReactJSXElement {
 			duration: 5000,
 			isClosable: true,
 		});
-		console.log({ user, data, error });
 	};
-	const handleEmailSignUp = async ({ email, password }: Credentials) => {
+	const handleEmailSignUp = async ({
+		email,
+		password,
+	}: Credentials): Promise<void> => {
 		if (!validateEmail(signUpEmail)) {
 			toast({
 				title: 'Not a valid email address',
@@ -50,7 +48,7 @@ export default function SignUp(): ReactJSXElement {
 			});
 			return;
 		}
-		const { data, error } = await supabase.signUp({
+		const { error }: any = await supabase.signUp({
 			email,
 			password,
 		});
@@ -79,25 +77,23 @@ export default function SignUp(): ReactJSXElement {
 							placeholder="Email address"
 							w="100%"
 							_focus={{ borderColor: 'brand.green' }}
-							onChange={(e) => {
-								setSignUpEmail(e.target.value);
-							}}
+							onChange={(e): void =>
+								setSignUpEmail(e.target.value)
+							}
 						/>
 						<Input
 							placeholder="Password"
 							w="100%"
-							_focus={{ borderColor: 'brand.green' }}
-							onChange={(e) => {
-								setPassword(e.target.value);
-							}}
 							type="password"
+							_focus={{ borderColor: 'brand.green' }}
+							onChange={(e): void => setPassword(e.target.value)}
 						/>
 						<Button
 							bg="brand.green"
 							color="brand.offwhite"
 							_hover={{ color: 'brand.yellow' }}
 							w="100%"
-							onClick={() =>
+							onClick={(): Promise<void> =>
 								handleEmailSignUp({
 									email: signUpEmail,
 									password,
@@ -120,21 +116,27 @@ export default function SignUp(): ReactJSXElement {
 						<Button
 							leftIcon={<FcGoogle />}
 							w="100%"
-							onClick={() => handleProviderSignUp('google')}
+							onClick={(): Promise<void> =>
+								handleProviderSignUp('google')
+							}
 						>
 							Continue with Google
 						</Button>
 						<Button
 							leftIcon={<BsFacebook />}
 							w="100%"
-							onClick={() => handleProviderSignUp('facebook')}
+							onClick={(): Promise<void> =>
+								handleProviderSignUp('facebook')
+							}
 						>
 							Continue with Facebook
 						</Button>
 						<Button
 							leftIcon={<BsTwitter />}
 							w="100%"
-							onClick={() => handleProviderSignUp('twitter')}
+							onClick={(): Promise<void> =>
+								handleProviderSignUp('twitter')
+							}
 						>
 							Continue with Twitter
 						</Button>
