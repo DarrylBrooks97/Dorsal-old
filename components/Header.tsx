@@ -126,7 +126,7 @@ export default function Header(): ReactJSXElement {
 				onClose={onClose}
 				isOpen={isOpen}
 			>
-				<ModalOverlay backdropFilter="blur(5px)" />
+				<ModalOverlay backdropFilter="blur(10px)" />
 				<ModalContent>
 					<ModalCloseButton />
 					<ModalBody>

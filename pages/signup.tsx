@@ -1,9 +1,10 @@
 import Supabase from '@/clients/supabase';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { BsTwitter, BsFacebook } from 'react-icons/bs';
 import { validateEmail } from '@/utils/validateEmail';
+import { NextRouter, useRouter } from 'next/router';
 import { Provider } from '@supabase/supabase-js';
 import { Credentials } from '@/types';
 import {
@@ -19,10 +20,27 @@ import {
 } from '@chakra-ui/react';
 
 export default function SignUp(): ReactJSXElement {
+	const router: NextRouter = useRouter();
+	const supabase: Supabase = new Supabase();
 	const toast = useToast();
 	const supabase: Supabase = new Supabase();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>(''); // Password should at least be 6 char
+
+	useEffect((): void => {
+		if (typeof window) {
+			const cacehdEmail: string | null = localStorage.getItem('email');
+			const signupInput: HTMLInputElement = document.getElementById(
+				'signUpEmail'
+			) as HTMLInputElement;
+
+			if (cacehdEmail) {
+				setSignUpEmail(cacehdEmail);
+				signupInput.value = cacehdEmail;
+				localStorage.clear();
+			}
+		}
+	}, []);
 
 	const handleProviderSignUp = async (provider: Provider): Promise<void> => {
 		const { data, error }: any = await supabase.providerAuth(provider);
@@ -75,6 +93,7 @@ export default function SignUp(): ReactJSXElement {
 					<VStack w="100%">
 						<Input
 							placeholder="Email address"
+							id="signUpEmail"
 							w="100%"
 							_focus={{ borderColor: 'brand.green' }}
 							onChange={(e): void =>
