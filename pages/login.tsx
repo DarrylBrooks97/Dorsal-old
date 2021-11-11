@@ -1,10 +1,11 @@
 import Supabase from '@/clients/supabase';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { BsTwitter, BsFacebook } from 'react-icons/bs';
 import { validateEmail } from '@/utils/validateEmail';
 import { Provider } from '@supabase/supabase-js';
+import { getData } from '@/utils/cachedData';
 import {
 	Box,
 	VStack,
@@ -21,6 +22,20 @@ export default function Login(): ReactJSXElement {
 	const toast = useToast();
 	const supabase: Supabase = new Supabase();
 	const [loginEmail, setLoginEmail] = useState<string>('');
+
+	useEffect((): void => {
+		if (typeof window) {
+			const email: any | null = getData('email');
+			const signupInput: HTMLInputElement = document.getElementById(
+				'loginEmail'
+			) as HTMLInputElement;
+
+			if (email) {
+				setLoginEmail(email);
+				signupInput.value = email;
+			}
+		}
+	}, []);
 
 	const handleProviderLogin = async (provider: Provider): Promise<void> => {
 		const { error }: any = await supabase.providerAuth(provider);
@@ -71,6 +86,7 @@ export default function Login(): ReactJSXElement {
 							placeholder="Email address"
 							w="100%"
 							_focus={{ borderColor: 'brand.green' }}
+							id="loginEmail"
 							onChange={(e): void =>
 								setLoginEmail(e.target.value)
 							}

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { homepageImages } from '@/constants';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { validateEmail } from '@/utils/validateEmail';
+import { setData } from '@/utils/cachedData';
 import {
 	Box,
 	Flex,
@@ -32,7 +33,9 @@ export default function Home(): ReactJSXElement {
 			});
 			return;
 		}
-		localStorage.setItem('email', signUpEmail);
+
+		setData('email', signUpEmail, 600000);
+
 		router.push('/signup', '', {
 			shallow: true,
 		});

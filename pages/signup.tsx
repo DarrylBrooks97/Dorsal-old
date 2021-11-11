@@ -7,6 +7,7 @@ import { validateEmail } from '@/utils/validateEmail';
 import { NextRouter, useRouter } from 'next/router';
 import { Provider } from '@supabase/supabase-js';
 import { Credentials } from '@/types';
+import { getData } from '@/utils/cachedData';
 import {
 	Box,
 	VStack,
@@ -23,21 +24,19 @@ export default function SignUp(): ReactJSXElement {
 	const router: NextRouter = useRouter();
 	const supabase: Supabase = new Supabase();
 	const toast = useToast();
-	const supabase: Supabase = new Supabase();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>(''); // Password should at least be 6 char
 
 	useEffect((): void => {
 		if (typeof window) {
-			const cacehdEmail: string | null = localStorage.getItem('email');
+			const email: any | null = getData('email');
 			const signupInput: HTMLInputElement = document.getElementById(
 				'signUpEmail'
 			) as HTMLInputElement;
 
-			if (cacehdEmail) {
-				setSignUpEmail(cacehdEmail);
-				signupInput.value = cacehdEmail;
-				localStorage.clear();
+			if (email) {
+				setSignUpEmail(email);
+				signupInput.value = email;
 			}
 		}
 	}, []);
