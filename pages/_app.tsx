@@ -1,12 +1,13 @@
+import '../styles/globals.css';
+import Header from '@/components/Header';
 import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
-import '../styles/globals.css';
 import { theme } from '../theme';
 import { DefaultSeo } from 'next-seo';
 import { canonicalUrl } from '../constants';
-import Header from '@/components/Header';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps): ReactJSXElement {
 	return (
 		<ChakraProvider theme={theme}>
 			<DefaultSeo

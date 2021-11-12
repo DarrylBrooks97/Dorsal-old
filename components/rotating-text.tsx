@@ -2,7 +2,7 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { useEffect } from 'react';
 import { Box, Text } from '@chakra-ui/react';
 
-const animation = () => {
+const animation = (): void => {
 	var words: any = document.getElementsByClassName('word');
 	var wordArray: HTMLSpanElement[][] = [];
 	var currentWord = 0;
@@ -13,7 +13,7 @@ const animation = () => {
 		var letters: any = [];
 
 		for (var i = 0; i < content.length; i++) {
-			var letter = document.createElement('span');
+			var letter: HTMLSpanElement = document.createElement('span');
 			letter.className = 'letter';
 			letter.innerHTML = content.charAt(i);
 			word.appendChild(letter);
@@ -68,8 +68,8 @@ const animation = () => {
 };
 
 export default function RotatingText(): ReactJSXElement {
-	useEffect(() => {
-		if (window) animation();
+	useEffect((): void => {
+		if (typeof window) animation();
 	}, []);
 
 	return (
@@ -93,8 +93,8 @@ export default function RotatingText(): ReactJSXElement {
 					as="span"
 					className="word"
 					color="brand.yellow"
-					fontSize={{ base: '2xl', md: '2xl' }}
 					position="absolute"
+					fontSize={{ base: '2xl', md: '2xl' }}
 				>
 					Maintenance
 				</Box>

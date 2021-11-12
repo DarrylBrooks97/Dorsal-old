@@ -3,7 +3,9 @@ import RotatingText from '@/components/rotating-text';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { homepageImages } from '@/constants';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { validateEmail } from '@/utils/validateEmail';
+import { setData } from '@/utils/cachedData';
 import {
 	Box,
 	Flex,
@@ -16,7 +18,7 @@ import {
 	useToast,
 } from '@chakra-ui/react';
 
-export default function Home() {
+export default function Home(): ReactJSXElement {
 	const router = useRouter();
 	const toast = useToast();
 	const [signUpEmail, setSignUpEmail] = useState<string>('');
@@ -31,7 +33,9 @@ export default function Home() {
 			});
 			return;
 		}
-		localStorage.setItem('email', signUpEmail);
+
+		setData('email', signUpEmail, 600000);
+
 		router.push('/signup', '', {
 			shallow: true,
 		});
@@ -58,17 +62,20 @@ export default function Home() {
 					<RotatingText />
 					<Center>
 						<HStack
-							pt={10}
 							display="flex"
 							justify="center"
+							pt={10}
 							w={{ base: '80%', md: '100%' }}
 						>
 							<Input
 								placeholder="Email address"
 								borderColor="#000000"
-								onChange={(e) => {
-									setSignUpEmail(e.target.value);
+								onKeyDown={(e): void => {
+									e.key === 'Enter' && handleEmailSignUp();
 								}}
+								onChange={(e): void =>
+									setSignUpEmail(e.target.value)
+								}
 							></Input>
 							<Button
 								color="brand.offwhite"
@@ -111,11 +118,14 @@ export default function Home() {
 						display={{ base: 'none', md: 'block', lg: 'block' }}
 					>
 						<Image
+							priority
 							alt="ciclid"
+							placeholder="blur"
 							draggable={false}
-							src={homepageImages[1]}
 							width={256}
 							height={256}
+							src={homepageImages[1]}
+							blurDataURL={homepageImages[1]}
 						/>
 					</Box>
 					<Box
@@ -126,10 +136,13 @@ export default function Home() {
 						h={{ base: '50%', lg: 'full' }}
 					>
 						<Image
+							priority
 							alt="ciclid 2"
-							src={homepageImages[2]}
+							placeholder="blur"
 							width={228}
 							height={228}
+							src={homepageImages[2]}
+							blurDataURL={homepageImages[2]}
 						/>
 					</Box>
 					<Box
@@ -140,10 +153,13 @@ export default function Home() {
 						h={{ base: '50%', lg: 'full' }}
 					>
 						<Image
+							priority
 							alt="ciclid 3"
-							src={homepageImages[3]}
+							placeholder="blur"
 							width={128}
 							height={128}
+							src={homepageImages[3]}
+							blurDataURL={homepageImages[3]}
 						/>
 					</Box>
 				</Flex>

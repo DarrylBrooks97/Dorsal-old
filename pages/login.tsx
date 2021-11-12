@@ -1,10 +1,11 @@
+import Supabase from '@/clients/supabase';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { BsTwitter, BsFacebook } from 'react-icons/bs';
 import { validateEmail } from '@/utils/validateEmail';
 import { Provider } from '@supabase/supabase-js';
-import Supabase from '@/clients/supabase';
+import { getData } from '@/utils/cachedData';
 import {
 	Box,
 	VStack,
@@ -18,11 +19,25 @@ import {
 } from '@chakra-ui/react';
 
 export default function Login(): ReactJSXElement {
-	const [loginEmail, setLoginEmail] = useState<string>('');
-	const supabase = new Supabase();
 	const toast = useToast();
+	const supabase: Supabase = new Supabase();
+	const [loginEmail, setLoginEmail] = useState<string>('');
 
-	const handleProviderLogin = async (provider: Provider) => {
+	useEffect((): void => {
+		if (typeof window) {
+			const email: any | null = getData('email');
+			const signupInput: HTMLInputElement = document.getElementById(
+				'loginEmail'
+			) as HTMLInputElement;
+
+			if (email) {
+				setLoginEmail(email);
+				signupInput.value = email;
+			}
+		}
+	}, []);
+
+	const handleProviderLogin = async (provider: Provider): Promise<void> => {
 		const { error }: any = await supabase.providerAuth(provider);
 
 		toast({
@@ -32,7 +47,8 @@ export default function Login(): ReactJSXElement {
 			isClosable: true,
 		});
 	};
-	const handleEmailLogin = async (email: string) => {
+
+	const handleEmailLogin = async (email: string): Promise<void> => {
 		if (!validateEmail(loginEmail)) {
 			toast({
 				title: 'Not a valid email address',
@@ -42,7 +58,7 @@ export default function Login(): ReactJSXElement {
 			});
 			return;
 		}
-		const { error } = await supabase.login({
+		const { error }: any = await supabase.login({
 			email,
 		});
 
@@ -53,6 +69,7 @@ export default function Login(): ReactJSXElement {
 			isClosable: true,
 		});
 	};
+
 	return (
 		<Box
 			h="90vh"
@@ -69,16 +86,19 @@ export default function Login(): ReactJSXElement {
 							placeholder="Email address"
 							w="100%"
 							_focus={{ borderColor: 'brand.green' }}
-							onChange={(e) => {
-								setLoginEmail(e.target.value);
-							}}
+							id="loginEmail"
+							onChange={(e): void =>
+								setLoginEmail(e.target.value)
+							}
 						/>
 						<Button
 							bg="brand.green"
 							color="brand.offwhite"
 							w="100%"
 							_hover={{ color: 'brand.yellow' }}
-							onClick={() => handleEmailLogin(loginEmail)}
+							onClick={(): Promise<void> =>
+								handleEmailLogin(loginEmail)
+							}
 						>
 							Login
 						</Button>
@@ -96,21 +116,27 @@ export default function Login(): ReactJSXElement {
 						<Button
 							leftIcon={<FcGoogle />}
 							w="100%"
-							onClick={() => handleProviderLogin('google')}
+							onClick={(): Promise<void> =>
+								handleProviderLogin('google')
+							}
 						>
 							Continue with Google
 						</Button>
 						<Button
 							leftIcon={<BsFacebook />}
 							w="100%"
-							onClick={() => handleProviderLogin('facebook')}
+							onClick={(): Promise<void> =>
+								handleProviderLogin('facebook')
+							}
 						>
 							Continue with Facebook
 						</Button>
 						<Button
 							leftIcon={<BsTwitter />}
 							w="100%"
-							onClick={() => handleProviderLogin('twitter')}
+							onClick={(): Promise<void> =>
+								handleProviderLogin('twitter')
+							}
 						>
 							Continue with Twitter
 						</Button>

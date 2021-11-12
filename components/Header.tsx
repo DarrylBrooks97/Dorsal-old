@@ -20,17 +20,17 @@ import {
 
 export default function Header(): ReactJSXElement {
 	const router = useRouter();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [isClicked, setIsClicked] = useState<boolean>(false);
-	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (typeof window) {
-			window.addEventListener('load', () => {
+			window.addEventListener('load', (): void => {
 				setIsMobile(window.innerWidth < 768);
 			});
 
-			window.addEventListener('resize', () => {
+			window.addEventListener('resize', (): void => {
 				if (window.innerWidth < 768) {
 					setIsMobile(true);
 				} else {
@@ -40,7 +40,7 @@ export default function Header(): ReactJSXElement {
 				}
 			});
 		}
-	}, []);
+	});
 
 	return (
 		<Box w="100%" h="auto" borderBottom="1px black" bg="brand.offwhite">
@@ -52,7 +52,7 @@ export default function Header(): ReactJSXElement {
 					w={{ base: '64px', lg: '64px' }}
 					h={{ base: '64px', lg: '64px' }}
 					alt="logo"
-					onClick={() =>
+					onClick={(): Promise<boolean> | string =>
 						window.location.pathname !== '/' ? router.push('/') : ''
 					}
 					cursor="pointer"
@@ -87,7 +87,7 @@ export default function Header(): ReactJSXElement {
 						color="black"
 						border="2px"
 						borderColor="brand.green"
-						onClick={() =>
+						onClick={(): Promise<boolean> | string =>
 							window.location.pathname !== '/login'
 								? router.push('/login')
 								: ''
@@ -100,7 +100,7 @@ export default function Header(): ReactJSXElement {
 						bg="brand.green"
 						color="brand.offwhite"
 						mt={{ base: '2', md: '0' }}
-						onClick={() =>
+						onClick={(): Promise<boolean> | string =>
 							window.location.pathname !== '/signup'
 								? router.push('/signup')
 								: ''
@@ -117,7 +117,7 @@ export default function Header(): ReactJSXElement {
 						height: '32px',
 						width: '32px',
 					}}
-					onClick={() => setIsClicked(!isClicked)}
+					onClick={(): void => setIsClicked(!isClicked)}
 				/>
 			</HStack>
 			<Modal
@@ -136,7 +136,7 @@ export default function Header(): ReactJSXElement {
 								mb="5"
 								color="brand.offwhite"
 								_hover={{ color: 'brand.yellow' }}
-								onClick={() => {
+								onClick={(): void => {
 									window.location.pathname !== '/signup'
 										? router.push('/signup')
 										: '';
@@ -152,7 +152,7 @@ export default function Header(): ReactJSXElement {
 								borderColor="brand.green"
 								mb="5"
 								_hover={{ color: 'brand.green' }}
-								onClick={() => {
+								onClick={(): void => {
 									window.location.pathname !== '/login'
 										? router.push('/login')
 										: '';
