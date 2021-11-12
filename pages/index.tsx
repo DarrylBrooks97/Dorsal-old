@@ -70,6 +70,9 @@ export default function Home(): ReactJSXElement {
 							<Input
 								placeholder="Email address"
 								borderColor="#000000"
+								onKeyDown={(e): void => {
+									e.key === 'Enter' && handleEmailSignUp();
+								}}
 								onChange={(e): void =>
 									setSignUpEmail(e.target.value)
 								}
@@ -115,11 +118,14 @@ export default function Home(): ReactJSXElement {
 						display={{ base: 'none', md: 'block', lg: 'block' }}
 					>
 						<Image
+							priority
 							alt="ciclid"
+							placeholder="blur"
 							draggable={false}
-							src={homepageImages[1]}
 							width={256}
 							height={256}
+							src={homepageImages[1]}
+							blurDataURL={homepageImages[1]}
 						/>
 					</Box>
 					<Box
@@ -130,10 +136,13 @@ export default function Home(): ReactJSXElement {
 						h={{ base: '50%', lg: 'full' }}
 					>
 						<Image
+							priority
 							alt="ciclid 2"
-							src={homepageImages[2]}
+							placeholder="blur"
 							width={228}
 							height={228}
+							src={homepageImages[2]}
+							blurDataURL={homepageImages[2]}
 						/>
 					</Box>
 					<Box
@@ -144,10 +153,13 @@ export default function Home(): ReactJSXElement {
 						h={{ base: '50%', lg: 'full' }}
 					>
 						<Image
+							priority
 							alt="ciclid 3"
-							src={homepageImages[3]}
+							placeholder="blur"
 							width={128}
 							height={128}
+							src={homepageImages[3]}
+							blurDataURL={homepageImages[3]}
 						/>
 					</Box>
 				</Flex>
